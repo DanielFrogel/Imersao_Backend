@@ -1,8 +1,8 @@
-import express from 'express';
-import conectarAoBanco from './src/config/dbConfig.js';
+import express from "express";
+import routes from "./src/routes/postsRoutes.js";
 
-const STRING_CONEXAO = 'mongodb+srv://danielfrogel:4EyJCAB85zbux56e@cluster0.ddeij.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-const conexao = await conectarAoBanco(STRING_CONEXAO)
+// const STRING_CONEXAO = 'mongodb+srv://danielfrogel:4EyJCAB85zbux56e@cluster0.ddeij.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+// const conexao = await conectarAoBanco(STRING_CONEXAO)
 
 /*
 const posts = [
@@ -29,24 +29,12 @@ const posts = [
 ]; */
 
 const app = express();
-
-app.use(express.json());
+app.use(express.static("uploads"))
+routes(app);
 
 app.listen(3000, () => {
     console.log('Servidor executando...');
 });
-
-function buscarPostPorID(id){
-    return posts.findIndex((post) => {
-        return post.id === Number(id);
-    });    
-};
-
-async function getTodosPosts(){
-    const db = conexao.db('imersao-instabytes');
-    const colecao = conexao.collection('posts');
-    return colecao.find().toArray();
-};
 
 // Banco de Dados
 // User: danielfrogel
